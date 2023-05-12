@@ -53,7 +53,7 @@ public class Main {
             System.out.println(answer);
             System.out.print("> ");
         }
-        System.out.println("✨ Bye bye ✨");
+        System.out.println("Bye bye");
     }
 
     public static double calculateLast(String[] equation, double last, double number1, double number2) {
