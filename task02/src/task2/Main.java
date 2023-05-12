@@ -4,12 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -45,24 +41,17 @@ public class Main {
 
             }
             // total occurence
-            int totalNum = 0; 
+            double totalNum = 0.0; 
             for (String key: nextWordsMap.keySet()) {
-                System.out.println(key + "\n");
+                System.out.println(key);
                 totalNum = nextWordsMap.get(key).values().stream()
                     .reduce(0, (accumulative, element) -> accumulative + element);
-                // for (int i = 0; i < nextWordsMap.get(key).size(); i++) {
-                //     System.out.println();
-                // }
-                System.out.println(nextWordsMap.get(key);
+
+                for (String value: nextWordsMap.get(key).keySet()) {
+                    double prob = nextWordsMap.get(key).get(value) / totalNum;
+                    System.out.printf("      %s %s %d\n", value, String.format("%.1f", prob), nextWordsMap.get(key).get(value));
+                }
             }
         }
-        /* 
-        {
-
-            word : {hi: 1, the: 4}
-            dog : {hi: 1, the: 4}
-
-        }
-        */
     }
 }
