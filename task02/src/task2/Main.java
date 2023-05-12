@@ -38,13 +38,18 @@ public class Main {
 
                 for (int i = 0; i < lineArray.length - 1; i++) {
                     // if hashmap.getkey() got value, add line[i+1]
-                    // if (i != lineArray.length) {
-                        System.out.printf("[%s, %s] index: %d\n", lineArray[i], lineArray[i+1], i);
+                    System.out.printf("[%s, %s] index: %d\n", lineArray[i], lineArray[i+1], i);
+
+                    // if (nextWordsMap.get(lineArray[i]) != null) {
+                    //     nextWordsMap.put(lineArray[i], hashArray.add(lineArray[i + 1]));
                     // }
+                    nextWordsMap.computeIfAbsent(lineArray[i], k -> new ArrayList<>()).add(lineArray[i+1]);
                 }
 
                 // reduce the hashmap's string
             }
         }
+
+        System.out.println(nextWordsMap.toString());
     }
 }
