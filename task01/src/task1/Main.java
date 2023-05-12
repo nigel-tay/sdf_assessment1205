@@ -11,7 +11,7 @@ public class Main {
         double number2;
         String operator;
         double last = 0;
-        String answer;
+        double answer;
 
         String temp;
         String[] equation;
@@ -20,7 +20,7 @@ public class Main {
         System.out.print("> ");
 
         while (!(temp = cons.readLine()).equals("exit")) {
-            answer = "";
+            answer = 0.0;
             equation = temp.split(" ");
             operator = equation[1];
 
@@ -28,7 +28,7 @@ public class Main {
                 number1 = last;
                 number2 = last;
                 answer = evaluate(number1, number2, operator);
-                last = Double.parseDouble(answer);
+                last = answer;
             }
             else if (equation[0].equals("$last") || equation[2].equals("$last")) {
                 switch(equation[0]) {
@@ -42,15 +42,18 @@ public class Main {
                         break;
                 }
                 answer = evaluate(number1, number2, operator);
-                last = Double.parseDouble(answer);
+                last = answer;
             }
             else {
                 number1 = Double.parseDouble(equation[0]);
                 number2 = Double.parseDouble(equation[2]);
                 last = calculateLast(equation, last, number1, number2);
-                answer = Double.toString(last);
+                answer = last;
             }
-            System.out.println(answer);
+            String finalAnswer = answer % 1 == 0 
+                ? String.format("%.0f", answer) 
+                : String.format("%.1f", answer);
+            System.out.println(finalAnswer);
             System.out.print("> ");
         }
         System.out.println("Bye bye");
@@ -77,7 +80,7 @@ public class Main {
         return last;
     }
 
-    public static String evaluate(double number1, double number2, String operator) {
+    public static double evaluate(double number1, double number2, String operator) {
         double tempAnswer = 0.0;
 
         switch(operator) {
@@ -95,7 +98,7 @@ public class Main {
                 break;
         }
 
-        return Double.toString(tempAnswer);
+        return tempAnswer;
     }
 
 }
