@@ -9,14 +9,13 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        // Try and read both files first
         File parentDir = new File(args[0]);
         File[] temp = parentDir.listFiles();
         File dir1 = temp[0];
         File dir2 = temp[1];
 
         analyse(dir1);
-        // analyse(dir2);
+        analyse(dir2);
     }
 
     public static void analyse(File dir) throws IOException {
