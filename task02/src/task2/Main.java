@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -22,7 +24,7 @@ public class Main {
     }
 
     public static void analyse(File dir) throws IOException {
-        System.out.println("For directory: " + dir.getName());
+        System.out.printf("*********************************** FOR DIRECTORY '%s' ***********************************", dir.getName());
         FileReader fr;
         BufferedReader br;
         String line = "";
@@ -30,26 +32,28 @@ public class Main {
         Map<String, List<String>> nextWordsMap = new HashMap<>();
 
         for (File file: dir.listFiles()) {
-            System.out.println("*********************** FOR FILE *********************************** " + file.getName());
+            System.out.printf("*********************************** FOR FILE '%s' ***********************************", file.getName());
             fr = new FileReader(file);
             br = new BufferedReader(fr);
             while ((line = br.readLine()) != null) {
                 lineArray = line.replaceAll("[^a-zA-Z ]", "").toLowerCase().split("\\s+");
 
                 for (int i = 0; i < lineArray.length - 1; i++) {
-                    // if hashmap.getkey() got value, add line[i+1]
-                    System.out.printf("[%s, %s] index: %d\n", lineArray[i], lineArray[i+1], i);
-
-                    // if (nextWordsMap.get(lineArray[i]) != null) {
-                    //     nextWordsMap.put(lineArray[i], hashArray.add(lineArray[i + 1]));
-                    // }
                     nextWordsMap.computeIfAbsent(lineArray[i], k -> new ArrayList<>()).add(lineArray[i+1]);
                 }
 
-                // reduce the hashmap's string
             }
         }
+        // reduce the hashmap's string[]
+        for (String key: nextWordsMap.keySet()) {
+            System.out.println(key);
 
-        System.out.println(nextWordsMap.toString());
+            Stream<String> stream = nextWordsMap.get(key).stream();
+
+            stream.collect(Collectors.groupingBy(word -> word))
+                // .forEach((k, val) -> System.out.printf("      %s %d\n", k, val.size()));
+                .forEach((k, v) -> System.out.printf("      %s %s\n", k, v.size()));
+        }
+        // System.out.println(nextWordsMap);
     }
 }
