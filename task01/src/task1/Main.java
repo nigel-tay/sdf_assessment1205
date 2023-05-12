@@ -7,10 +7,10 @@ public class Main {
         
         System.out.println("Welcome.");
 
-        int number1;
-        int number2;
+        double number1;
+        double number2;
         String operator;
-        int last = 0;
+        double last = 0;
         String answer;
 
         String temp;
@@ -22,35 +22,41 @@ public class Main {
         while (!(temp = cons.readLine()).equals("exit")) {
             answer = "";
             equation = temp.split(" ");
+            operator = equation[1];
 
-            if (equation[0].equals("$last") || equation[2].equals("$last")) {
-                operator = equation[1];
+            if (equation[0].equals("$last") && equation[2].equals("$last")) {
+                number1 = last;
+                number2 = last;
+                answer = evaluate(number1, number2, operator);
+                last = Double.parseDouble(answer);
+            }
+            else if (equation[0].equals("$last") || equation[2].equals("$last")) {
                 switch(equation[0]) {
                     case "$last":
                         number1 = last;
-                        number2 = Integer.parseInt(equation[2]);
+                        number2 = Double.parseDouble(equation[2]);
                         break;
                     default:
-                        number1 = Integer.parseInt(equation[0]);
+                        number1 = Double.parseDouble(equation[0]);
                         number2 = last;
                         break;
                 }
                 answer = evaluate(number1, number2, operator);
-                last = Integer.parseInt(answer);
+                last = Double.parseDouble(answer);
             }
             else {
-                operator = equation[1];
-                number1 = Integer.parseInt(equation[0]);
-                number2 = Integer.parseInt(equation[2]);
+                number1 = Double.parseDouble(equation[0]);
+                number2 = Double.parseDouble(equation[2]);
                 last = calculateLast(equation, last, number1, number2);
-                answer = Integer.toString(last);
+                answer = Double.toString(last);
             }
             System.out.println(answer);
             System.out.print("> ");
         }
+        System.out.println("✨ Bye bye ✨");
     }
 
-    public static int calculateLast(String[] equation, int last, int number1, int number2) {
+    public static double calculateLast(String[] equation, double last, double number1, double number2) {
         switch(equation[1]) {
             case "+":
                 last = number1 + number2;
@@ -71,8 +77,8 @@ public class Main {
         return last;
     }
 
-    public static String evaluate(int number1, int number2, String operator) {
-        int tempAnswer = 0;
+    public static String evaluate(double number1, double number2, String operator) {
+        double tempAnswer = 0.0;
 
         switch(operator) {
             case "+":
@@ -89,7 +95,7 @@ public class Main {
                 break;
         }
 
-        return Integer.toString(tempAnswer);
+        return Double.toString(tempAnswer);
     }
 
 }
