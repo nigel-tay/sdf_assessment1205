@@ -20,7 +20,7 @@ public class Main {
     }
 
     public static void analyse(File dir) throws IOException {
-        System.out.printf("*********************************** FOR DIRECTORY '%s' ***********************************", dir.getName());
+        System.out.printf("*********************************** FOR DIRECTORY '%s' ***********************************\n", dir.getName());
         FileReader fr;
         BufferedReader br;
         String line = "";
@@ -28,7 +28,7 @@ public class Main {
         Map<String, HashMap<String, Integer>> nextWordsMap = new HashMap<>();
 
         for (File file: dir.listFiles()) {
-            System.out.printf("*********************************** FOR FILE '%s' ***********************************", file.getName());
+            System.out.printf("*********************************** FOR FILE '%s' ***********************************\n", file.getName());
             fr = new FileReader(file);
             br = new BufferedReader(fr);
             while ((line = br.readLine()) != null) {
@@ -48,8 +48,9 @@ public class Main {
                     .reduce(0, (accumulative, element) -> accumulative + element);
 
                 for (String value: nextWordsMap.get(key).keySet()) {
-                    double prob = nextWordsMap.get(key).get(value) / totalNum;
-                    System.out.printf("      %s %s %d\n", value, String.format("%.1f", prob), nextWordsMap.get(key).get(value));
+                    double dprob = nextWordsMap.get(key).get(value) / totalNum;
+                    String prob = dprob == 1 ? String.format("%.0f", dprob) : String.format("%.1f", dprob);
+                    System.out.printf("      %s %s\n", value, prob);
                 }
             }
         }
