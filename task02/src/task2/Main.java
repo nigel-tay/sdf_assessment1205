@@ -29,7 +29,7 @@ public class Main {
         BufferedReader br;
         String line = "";
         String[] lineArray;
-        Map<String, List<String>> nextWordsMap = new HashMap<>();
+        Map<String, HashMap<String, Integer>> nextWordsMap = new HashMap<>();
 
         for (File file: dir.listFiles()) {
             System.out.printf("*********************************** FOR FILE '%s' ***********************************", file.getName());
@@ -39,21 +39,30 @@ public class Main {
                 lineArray = line.replaceAll("[^a-zA-Z ]", "").toLowerCase().split("\\s+");
 
                 for (int i = 0; i < lineArray.length - 1; i++) {
-                    nextWordsMap.computeIfAbsent(lineArray[i], k -> new ArrayList<>()).add(lineArray[i+1]);
+                    nextWordsMap.computeIfAbsent(lineArray[i], k -> new HashMap<String, Integer>())
+                                .merge(lineArray[i+1], 1, Integer::sum);
                 }
 
             }
+            // total occurence
+            int totalNum = 0; 
+            for (String key: nextWordsMap.keySet()) {
+                System.out.println(key + "\n");
+                totalNum = nextWordsMap.get(key).values().stream()
+                    .reduce(0, (accumulative, element) -> accumulative + element);
+                // for (int i = 0; i < nextWordsMap.get(key).size(); i++) {
+                //     System.out.println();
+                // }
+                System.out.println(nextWordsMap.get(key);
+            }
         }
-        // reduce the hashmap's string[]
-        for (String key: nextWordsMap.keySet()) {
-            System.out.println(key);
+        /* 
+        {
 
-            Stream<String> stream = nextWordsMap.get(key).stream();
+            word : {hi: 1, the: 4}
+            dog : {hi: 1, the: 4}
 
-            stream.collect(Collectors.groupingBy(word -> word))
-                // .forEach((k, val) -> System.out.printf("      %s %d\n", k, val.size()));
-                .forEach((k, v) -> System.out.printf("      %s %s\n", k, v.size()));
         }
-        // System.out.println(nextWordsMap);
+        */
     }
 }
